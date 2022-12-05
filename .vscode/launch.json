@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "baxex_test",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "baxex_test (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "baxex_test (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "baseX",
+            "cwd": "baseX",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "baseX (profile mode)",
+            "cwd": "baseX",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "baseX (release mode)",
+            "cwd": "baseX",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

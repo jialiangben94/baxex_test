@@ -1,0 +1,29 @@
+name: baxex_test
+description: A new Flutter project.
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.11.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  baseX:
+    path: baseX
+  get: ^4.6.5
+  # firebase_core: ^1.18.0
+  # firebase_messaging: ^11.4.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+
+flutter:
+  uses-material-design: true
