@@ -1,16 +1,13 @@
+import 'package:baseX/helper/dark_mode_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 mixin CustomTextStyle {
   //Regular Font
   TextStyle regular(double fontSize, Color color,
-      {TextDecoration decoration, double height, Color darkColor}) {
-    BuildContext context = Get.context;
+      {TextDecoration decoration, double height}) {
     return TextStyle(
-        color: context.theme
-            .copyWith(
-                primaryColor: context.isDarkMode ? darkColor ?? color : color)
-            .primaryColor,
+        color: color,
         fontSize: fontSize,
         decoration: decoration ?? TextDecoration.none,
         height: height);

@@ -10,7 +10,8 @@ class AResponse {
     this.data,
   });
 
-  factory AResponse.fromJson(Map<String, dynamic> json, {Function(Map<String, dynamic>) create}) {
+  factory AResponse.fromJson(Map<String, dynamic> json,
+      {Function(Map<String, dynamic>) create}) {
     var jsonData = json['data'];
 
     return AResponse(
@@ -42,11 +43,15 @@ class SocialData {
   // final String imageUrl;
   final String providerName;
 
-  SocialData(this.id, this.name, this.email, this.providerName); // this.imageUrl
+  SocialData(
+      this.id, this.name, this.email, this.providerName); // this.imageUrl
 
-  SocialData.google(this.id, this.name, this.email, {this.providerName = 'google'});
+  SocialData.google(this.id, this.name, this.email,
+      {this.providerName = 'google'});
 
-  SocialData.facebook(this.id, this.name, this.email, {this.providerName = 'facebook'});
+  SocialData.facebook(this.id, this.name, this.email,
+      {this.providerName = 'facebook'});
 
-  SocialData.apple(this.id, this.name, this.email, {this.providerName = 'apple'});
+  SocialData.apple(this.id, this.name, this.email,
+      {this.providerName = 'apple'});
 }

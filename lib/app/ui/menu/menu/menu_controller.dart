@@ -7,6 +7,8 @@ class MenuController extends BaseXController {
     isLoading.value = true;
   }
 
+  onSwitchChange(bool value) {}
+
   @override
   Future<bool> onBack() async => true;
 }
