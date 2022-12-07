@@ -16,6 +16,7 @@ dependencies:
   baseX:
     path: baseX
   get: ^4.6.5
+  shared_preferences: ^2.0.13
   # firebase_core: ^1.18.0
   # firebase_messaging: ^11.4.2
 

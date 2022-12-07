@@ -6,6 +6,7 @@ void changeDarkMode() {
   Get.changeThemeMode(context.isDarkMode ? ThemeMode.light : ThemeMode.dark);
 }
 
+/// Light Color, Dark Color
 Color setDarkModeColor(Color lightColor, Color darkColor) {
   BuildContext context = Get.context;
   return context.theme

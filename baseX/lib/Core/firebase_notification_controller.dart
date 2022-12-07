@@ -1,11 +1,24 @@
 import 'dart:developer';
 
-import 'package:baseX/const/share_pref.dart';
+import 'package:baseX/baseX.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
+/// Firebase Messaging will auto initialize when class is pass into runEtcApp
+///
+/// Below are the list of function are required to override:
+/// 1. onReceiveToken => FcmToken will be pass to this function for any addition process required, fcm token will auto save to share preference
+/// 2. onErrorToken => Function will run will fail to retreive fcm token
+/// 3. onLaunchMessage => Function will run when App is opened and initialized via notification
+/// 4. onMessage => Function will run when notification is received while App is active
+/// 5. onMessageOpenedApp => Function will run when notification is tapped when App is inactive in background
+///
+/// Below are the list of variable to set for iOS only:
+/// 1. soundEnable
+/// 2. badgeEnable
+/// 3. alertEnable
 abstract class FirebaseNotificationController<T> {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -28,7 +41,7 @@ abstract class FirebaseNotificationController<T> {
   bool get alertEnable => true;
 
   //Receive FCM Token Function
-  void receiveToken(String token);
+  void onReceiveToken(String token);
 
   //On Error Receive FCM Token Funtion;
   void onErrorToken(dynamic error);
@@ -56,8 +69,8 @@ abstract class FirebaseNotificationController<T> {
     log('User granted permissions: ${settings.authorizationStatus}');
 
     _firebaseMessaging.getToken().then((token) async {
-      if (receiveToken != null) {
-        receiveToken(token);
+      if (onReceiveToken != null) {
+        onReceiveToken(token);
       }
       SharePref.sharePref?.saveFcmToken(token);
       log('fcmToken: $token');

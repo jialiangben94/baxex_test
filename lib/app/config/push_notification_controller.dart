@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:baseX/baseX.dart';
-import 'package:baseX/const/firebase_notification_controller.dart';
 
 class PushNotitificationController extends FirebaseNotificationController {
   @override
@@ -26,7 +25,7 @@ class PushNotitificationController extends FirebaseNotificationController {
   }
 
   @override
-  void receiveToken(String token) {
+  void onReceiveToken(String token) {
     // TODO: implement receiveToken
     log(token);
   }

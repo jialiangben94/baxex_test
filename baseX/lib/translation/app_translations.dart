@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:baseX/baseX.dart';
-import 'package:baseX/const/share_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

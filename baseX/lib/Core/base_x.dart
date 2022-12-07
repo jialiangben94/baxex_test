@@ -112,6 +112,12 @@ abstract class BaseX {
     );
   }
 
+  Future<void> defaulOnFailedDialog(String message) => Get.dialog(AlertDialog(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20))),
+        content: Text(message),
+      ));
+
   /// 0: HMS Core (APK) is available.
   ///
   /// 1: No HMS Core (APK) is found on device.

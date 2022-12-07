@@ -250,7 +250,7 @@ class ApiInterceptors extends Interceptor {
     'Os-Type': Platform.isIOS ? 'ios' : 'android',
     // 'Version-Type': C.versionType,
     // 'Label-Version': C.labelVersion,
-    'API-Version': baseConstant.api_version,
+    // 'API-Version': baseConstant.api_version,
     'Accept-Language': baseConstant.languageCode.value,
     'Device-Type': Platform.isIOS ? 'ios' : 'android',
     // 'Device-Model': C.deviceModel.replaceAll(RegExp('[^\u0001-\u007F]'), '_'),

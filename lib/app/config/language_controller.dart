@@ -1,6 +1,6 @@
 import 'package:baseX/baseX.dart';
 import 'package:baxex_test/app/config/app_constant.dart';
-import 'package:baxex_test/app/model/local/label.dart';
+import 'package:baxex_test/app/model/view/label.dart';
 
 class LanguageController extends AppTranslationX<Label> {
   @override

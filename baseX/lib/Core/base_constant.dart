@@ -5,22 +5,15 @@ enum Environment { Live, Staging }
 
 class DefaultBaseContant extends BaseConstant {}
 
+/// Default variable:
+///
+/// 1. baseUrl => Live url set in runEtcApp
+/// 2. staginBaseUrl => Staging url set in runEtcApp
+/// 3. languageCode => current language selected, by default is English, en. (if multi langauge is enable in runEtcApp)
+/// 4. onFailed => global onFailed set in runEtcApp
 abstract class BaseConstant {
-  var api_version = '1.0.0';
   var baseUrl = '';
   var staginBaseUrl = '';
-
-  List<String> get language => [
-        '中文',
-        'English',
-        'Bahasa Melayu',
-      ];
-
-  List<String> get languageCodeList => [
-        'zh',
-        'en',
-        'ms',
-      ];
 
   RxString languageCode = 'en'.obs;
 

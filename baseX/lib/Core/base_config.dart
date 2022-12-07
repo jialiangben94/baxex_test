@@ -1,6 +1,5 @@
 import 'package:baseX/baseX.dart';
-import 'package:baseX/const/firebase_notification_controller.dart';
-import 'package:baseX/const/share_pref.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,30 +11,59 @@ BaseX baseXWidgetConfig;
 
 typedef AddtionalWidget = Widget Function(Widget child);
 
+/// title => Set Project title
+///
+/// theme => Set Project app theme
+///
+/// themeMode => Enable dark mode, if null being pass, will disable dark mode. Default value is null
+///
+/// currentEnv => Set current environment. Staging or Live
+///
+/// liveBaseUrl => Set live base url. Required if currentEnv is live
+///
+/// staginBaseUrl => Set staging base url. Required if currentEnv is staging
+///
+/// requireSharePref => Enable Share Pref, by default is disabled
+///
+/// allowOrientationList => Set allowed Orientation List
+///
+/// onFailed => Set Global onFailed
+///
+/// firebaseNotificationController => Enable FCM, will disable function if no object being pass
+///
+/// constantFile => Custom Base Constant, will have a default constant file if no object being pass
+///
+/// appLanguage => Enable App Langauge, will disable function if no object being pass
+///
+/// baseXConfig => Custom Base Config, will have a default config file if no object being pass
+///
+/// getPages => Register all page route with binding (if any)
+///
+/// initialBinding => Set Global Binding
+///
+/// additionalFunction => Add additional function before runEtcApp
+///
+/// additionalWidget => Add additional widget before material app
+
 void runEtcApp({
-  Environment currentEnv = Environment.Staging, //Set current environment
-  String liveBaseUrl, //Set live base url
-  String staginBaseUrl, //Set staging base url
-  bool requireSharePref, //Enable Share Pref, by default is disabled
-  List<DeviceOrientation> allowOrientationList, //Set allowed Orientation List
-  GeneralErrorHandle onFailed, //Set super onFailed
-  FirebaseNotificationController
-      firebaseNotificationController, //Enable FCM, will disable function if no object being pass
-  BaseConstant
-      constantFile, //Custom Base Constant, will have a default constant file if no object being pass
-  AppTranslationX
-      appLanguage, //Enable App Langauge, will disable function if no object being pass
-  BaseX
-      baseXConfig, //Custom Base Config, will have a default config file if no object being pass
-  String title, //Set Project title
-  ThemeData theme, //Set Project theme
-  bool
-      isLightMode, //Enable dark mode, if null being pass, will disable dark mode. Default value is null
-  List<GetPage<dynamic>> getPages, //Register all page route
-  @required BaseXWidget initialPage, //Set Initial Page
-  Bindings initialBinding, //Set Global Binding
-  Function additionalFunction, // Add additional function before runApp
-  AddtionalWidget additionalWidget, // Add additional widget before material app
+  String title,
+  ThemeData theme,
+  ThemeMode themeMode,
+  Environment currentEnv = Environment.Staging,
+  String liveBaseUrl,
+  String staginBaseUrl,
+  bool requireSharePref,
+  List<DeviceOrientation> allowOrientationList,
+  GeneralErrorHandle onFailed,
+  FirebaseNotificationController firebaseNotificationController,
+  BaseConstant constantFile,
+  AppTranslationX appLanguage,
+  BaseX baseXConfig,
+  List<GetPage<dynamic>> getPages,
+  @required BaseXWidget initialPage,
+  Bindings initialBinding,
+  Function additionalFunction,
+  AddtionalWidget additionalWidget,
 }) {
   //Check required field
   assert(initialPage != null, 'Initial Page is required');
@@ -53,10 +81,10 @@ void runEtcApp({
 
   //Check for evironment and required base ur
   if (currentEnv == Environment.Staging) {
-    assert(staginBaseUrl != null, "Staging Base Url is required");
+    assert(staginBaseUrl.isNotEmpty, "Staging Base Url is required");
     baseConstant.staginBaseUrl = staginBaseUrl;
   } else {
-    assert(liveBaseUrl != null, "Live Base Url is required");
+    assert(liveBaseUrl.isNotEmpty, "Live Base Url is required");
     baseConstant.baseUrl = liveBaseUrl;
   }
 
@@ -95,7 +123,7 @@ void runEtcApp({
     initialPage: initialPage,
     initialBinding: initialBinding,
     appLanguage: appLanguage,
-    isLightMode: isLightMode,
+    themeMode: themeMode,
     additionalWidget: additionalWidget,
   ));
 }
@@ -103,11 +131,11 @@ void runEtcApp({
 class MyApp extends StatelessWidget {
   final String title;
   final ThemeData theme;
+  final ThemeMode themeMode;
   final List<GetPage<dynamic>> getPages;
   final BaseXWidget initialPage;
   final Bindings initialBinding;
   final AppTranslationX appLanguage;
-  final bool isLightMode;
   final AddtionalWidget additionalWidget;
   const MyApp({
     this.title,
@@ -116,20 +144,20 @@ class MyApp extends StatelessWidget {
     this.initialPage,
     this.initialBinding,
     this.appLanguage,
-    this.isLightMode,
+    this.themeMode,
     this.additionalWidget,
   });
 
   Widget materialApp() {
     return GetMaterialApp(
       title: title,
-      theme: isLightMode == null
+      theme: themeMode == null
           ? theme
           : theme.copyWith(brightness: Brightness.light),
-      darkTheme: isLightMode == null
+      darkTheme: themeMode == null
           ? null
           : theme.copyWith(brightness: Brightness.dark),
-      themeMode: (isLightMode ?? true) ? ThemeMode.light : ThemeMode.dark,
+      themeMode: (themeMode == null) ? ThemeMode.light : themeMode,
       getPages: getPages,
       initialRoute: initialPage.routeName,
       initialBinding: initialBinding,

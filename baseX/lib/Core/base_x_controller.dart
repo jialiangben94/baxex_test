@@ -6,12 +6,14 @@ import 'package:get/get.dart';
 GeneralErrorHandle onFailed =
     ((BuildContext context, code, msg, {tryAgain}) => true);
 
+/// onFailedDialog => Function will run when super.onFailed return false, by default will show a dialog set in BaseConfig file.
+///
+/// onFailed => onFailed function for api, by default will run onFailedDialog.
 abstract class BaseXController<T> extends FullLifeCycleController
     with FullLifeCycleMixin
     implements GeneralCallBack, RequiredCallBack {
   RxBool isLoading = false.obs;
-  RxString onLoadingText = ''.obs;
-  T get page => Get.arguments;
+  T page = Get.arguments;
 
   @override
   void onInit() {
@@ -52,10 +54,20 @@ abstract class BaseXController<T> extends FullLifeCycleController
         isWhite ?? baseXWidgetConfig.statusBarTextWhiteColor);
   }
 
+  void onFailedDialog(int code, String msg, dynamic data) {
+    if (!Get.isDialogOpen) {
+      baseXWidgetConfig.defaulOnFailedDialog(msg);
+    }
+  }
+
   @override
   bool onFailed(int code, String msg, dynamic data, {Function() tryAgain}) {
-    if (baseConstant.onFailed == null) return false;
-    return baseConstant.onFailed(Get.context, code, msg, tryAgain: tryAgain);
+    isLoading.value = false;
+    // dismissKeyboard(Get.context);
+    if (!(baseConstant.onFailed(Get.context, code, msg) ?? false)) {
+      onFailedDialog(code, msg, data);
+    }
+    return true;
   }
 }
 
