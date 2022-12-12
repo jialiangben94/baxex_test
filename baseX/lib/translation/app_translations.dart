@@ -8,21 +8,21 @@ class LanguageModel {
   final String title;
   final String code;
   LanguageModel({
-    this.title,
-    this.code,
+    required this.title,
+    required this.code,
   });
 }
 
-AppTranslationX appTranslationX;
+AppTranslationX? appTranslationX;
 
 abstract class AppTranslationX<T> {
-  Locale appLocale;
+  Locale? appLocale;
 
   List<LanguageModel> get LANG_LIST;
 
-  String translate(String key, String languageCode, List<T> list);
+  String? translate(String key, String languageCode, List<T> list);
 
-  T fromJson(dynamic source);
+  T? fromJson(dynamic source);
 
   AppLocalizationsX<T> appLocalizationsX = AppLocalizationsX<T>();
 
@@ -34,7 +34,7 @@ abstract class AppTranslationX<T> {
     return await appLocalizationsX.labelUtil.writeLabel(data);
   }
 
-  Locale fetchLocale() {
+  Locale? fetchLocale() {
     var code = SharePref.sharePref.languageCode;
     appLocale = Locale(code);
     return appLocale;
@@ -48,6 +48,6 @@ abstract class AppTranslationX<T> {
     appLocale = Locale(langCode);
     await SharePref.sharePref.saveLanguageCode(langCode);
     baseConstant.languageCode.value = langCode;
-    Get.updateLocale(appLocale);
+    Get.updateLocale(appLocale!);
   }
 }

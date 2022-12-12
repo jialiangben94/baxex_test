@@ -14,13 +14,13 @@ class MenuPage extends BaseXWidget<MenuController> with CustomTextStyle {
   String get routeName => '/menu';
 
   @override
-  Widget appBar(BuildContext context) => null;
+  Widget? appBar(BuildContext context) => null;
 
   @override
   MenuController get c => controller;
 
   @override
-  Widget body(BuildContext context) {
+  Widget? body(BuildContext context) {
     return Container(
       width: double.infinity,
       height: double.infinity,

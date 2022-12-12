@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class MainPage extends BaseXWidget<MainController> with CustomTextStyle {
   @override
-  Widget appBar(BuildContext context) {
+  Widget? appBar(BuildContext context) {
     // TODO: implement appBar
     return null;
   }
@@ -15,7 +15,7 @@ class MainPage extends BaseXWidget<MainController> with CustomTextStyle {
   bool get safeArea => true;
 
   @override
-  Widget body(BuildContext context) {
+  Widget? body(BuildContext context) {
     // TODO: implement body
     return Container(
       width: double.infinity,

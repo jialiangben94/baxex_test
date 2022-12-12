@@ -4,8 +4,8 @@ class FormLocalModel {
   final String name;
   final String code;
   FormLocalModel({
-    this.name,
-    this.code,
+    required this.name,
+    required this.code,
   });
 
   Map<String, dynamic> toMap() {

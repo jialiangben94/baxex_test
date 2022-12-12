@@ -18,7 +18,7 @@ abstract class BaseXController<T> extends FullLifeCycleController
   @override
   void onInit() {
     super.onInit();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
     setStatusBarColor(null);
   }
 
@@ -49,30 +49,34 @@ abstract class BaseXController<T> extends FullLifeCycleController
     print('$runtimeType - onResumed called');
   }
 
-  Future<void> setStatusBarColor(bool isWhite) async {
+  Future<void> setStatusBarColor(bool? isWhite) async {
     await FlutterStatusbarcolor.setStatusBarWhiteForeground(
         isWhite ?? baseXWidgetConfig.statusBarTextWhiteColor);
   }
 
   void onFailedDialog(int code, String msg, dynamic data) {
-    if (!Get.isDialogOpen) {
+    if (!(Get.isDialogOpen ?? false)) {
       baseXWidgetConfig.defaulOnFailedDialog(msg);
     }
   }
 
   @override
-  bool onFailed(int code, String msg, dynamic data, {Function() tryAgain}) {
+  bool onFailed(int code, String msg, dynamic data, {Function? tryAgain}) {
     isLoading.value = false;
     // dismissKeyboard(Get.context);
-    if (!(baseConstant.onFailed(Get.context, code, msg) ?? false)) {
+    if (Get.context == null) return true;
+    if (!(baseConstant.onFailed(Get.context!, code, msg, tryAgain: tryAgain))) {
       onFailedDialog(code, msg, data);
     }
     return true;
   }
+
+  @override
+  Future<bool> onBack() async => true;
 }
 
 abstract class GeneralCallBack {
-  bool onFailed(int code, String msg, dynamic data, {Function() tryAgain});
+  bool onFailed(int code, String msg, dynamic data, {Function? tryAgain});
 }
 
 abstract class RequiredCallBack {

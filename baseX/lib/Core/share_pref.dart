@@ -19,7 +19,7 @@ SharePref S = SharePref.sharePref;
 ///   a. saveFcmToken
 ///   b. fcmToken
 class SharePref {
-  static SharedPreferences _prefs;
+  static late SharedPreferences? _prefs;
   static final SharePref sharePref = SharePref._();
   SharePref._();
 
@@ -37,33 +37,33 @@ class SharePref {
         : 'Shared Preferences is initialized');
   }
 
-  SharedPreferences get prefs => _prefs;
+  SharedPreferences? get prefs => _prefs;
 
   Future<bool> saveAccessToken(String token) async {
-    return await _prefs.setString(_tokenKey, token) ?? false;
+    return await _prefs?.setString(_tokenKey, token) ?? false;
   }
 
   String get accessToken {
-    return _prefs.getString(_tokenKey) ?? '';
+    return _prefs?.getString(_tokenKey) ?? '';
   }
 
   removeAccessToken() async {
-    _prefs.remove(_tokenKey);
+    _prefs?.remove(_tokenKey);
   }
 
-  Future<bool> saveLanguageCode(String code) {
-    return _prefs.setString(_languageCodeKey, code) ?? false;
+  Future<bool> saveLanguageCode(String code) async {
+    return await _prefs?.setString(_languageCodeKey, code) ?? false;
   }
 
   String get languageCode {
-    return _prefs.getString(_languageCodeKey) ?? 'en';
+    return _prefs?.getString(_languageCodeKey) ?? 'en';
   }
 
-  Future<bool> saveFcmToken(String code) {
-    return _prefs.setString(_fcmTokenKey, code) ?? false;
+  Future<bool> saveFcmToken(String code) async {
+    return await _prefs?.setString(_fcmTokenKey, code) ?? false;
   }
 
   String get fcmToken {
-    return _prefs.getString(_fcmTokenKey) ?? '';
+    return _prefs?.getString(_fcmTokenKey) ?? '';
   }
 }

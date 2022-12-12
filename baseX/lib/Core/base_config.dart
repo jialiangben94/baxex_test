@@ -4,10 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:get/get.dart';
 
-BaseConstant baseConstant;
-BaseX baseXWidgetConfig;
+late BaseConstant baseConstant;
+late BaseX baseXWidgetConfig;
 
 typedef AddtionalWidget = Widget Function(Widget child);
 
@@ -46,28 +47,26 @@ typedef AddtionalWidget = Widget Function(Widget child);
 /// additionalWidget => Add additional widget before material app
 
 void runEtcApp({
-  String title,
-  ThemeData theme,
-  ThemeMode themeMode,
+  required String title,
+  required ThemeData theme,
+  ThemeMode? themeMode,
   Environment currentEnv = Environment.Staging,
-  String liveBaseUrl,
-  String staginBaseUrl,
-  bool requireSharePref,
-  List<DeviceOrientation> allowOrientationList,
-  GeneralErrorHandle onFailed,
-  FirebaseNotificationController firebaseNotificationController,
-  BaseConstant constantFile,
-  AppTranslationX appLanguage,
-  BaseX baseXConfig,
-  List<GetPage<dynamic>> getPages,
-  @required BaseXWidget initialPage,
-  Bindings initialBinding,
-  Function additionalFunction,
-  AddtionalWidget additionalWidget,
+  required String liveBaseUrl,
+  required String staginBaseUrl,
+  required bool requireSharePref,
+  required List<DeviceOrientation> allowOrientationList,
+  required GeneralErrorHandle onFailed,
+  FirebaseNotificationController? firebaseNotificationController,
+  BaseConstant? constantFile,
+  AppTranslationX? appLanguage,
+  BaseX? baseXConfig,
+  required List<GetPage<dynamic>> getPages,
+  required BaseXWidget initialPage,
+  required Bindings initialBinding,
+  Function? additionalFunction,
+  AddtionalWidget? additionalWidget,
 }) {
   //Check required field
-  assert(initialPage != null, 'Initial Page is required');
-  assert(title != null, 'Title is required');
   assert(!(appLanguage != null && !requireSharePref),
       'Required Share Preference to enable App Language');
   assert(!(firebaseNotificationController != null && !requireSharePref),
@@ -78,15 +77,12 @@ void runEtcApp({
 
   //Set BaseX File
   baseXWidgetConfig = baseXConfig ?? DefaulBaseX();
+  FlutterStatusbarcolor.setStatusBarWhiteForeground(
+      baseXWidgetConfig.statusBarTextWhiteColor);
 
-  //Check for evironment and required base ur
-  if (currentEnv == Environment.Staging) {
-    assert(staginBaseUrl.isNotEmpty, "Staging Base Url is required");
-    baseConstant.staginBaseUrl = staginBaseUrl;
-  } else {
-    assert(liveBaseUrl.isNotEmpty, "Live Base Url is required");
-    baseConstant.baseUrl = liveBaseUrl;
-  }
+  //Set Base Url
+  baseConstant.staginBaseUrl = staginBaseUrl;
+  baseConstant.baseUrl = liveBaseUrl;
 
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -100,7 +96,7 @@ void runEtcApp({
 
   //Set available orientation
   if (allowOrientationList != null) {
-    baseXWidgetConfig.setAllowedOrientation(allowOrientationList);
+    SystemChrome.setPreferredOrientations(allowOrientationList);
   }
 
   //Initialize Firebase Notification Controller if Exists
@@ -131,18 +127,18 @@ void runEtcApp({
 class MyApp extends StatelessWidget {
   final String title;
   final ThemeData theme;
-  final ThemeMode themeMode;
+  final ThemeMode? themeMode;
   final List<GetPage<dynamic>> getPages;
   final BaseXWidget initialPage;
   final Bindings initialBinding;
-  final AppTranslationX appLanguage;
-  final AddtionalWidget additionalWidget;
+  final AppTranslationX? appLanguage;
+  final AddtionalWidget? additionalWidget;
   const MyApp({
-    this.title,
-    this.theme,
-    this.getPages,
-    this.initialPage,
-    this.initialBinding,
+    required this.title,
+    required this.theme,
+    required this.getPages,
+    required this.initialPage,
+    required this.initialBinding,
     this.appLanguage,
     this.themeMode,
     this.additionalWidget,
@@ -157,7 +153,7 @@ class MyApp extends StatelessWidget {
       darkTheme: themeMode == null
           ? null
           : theme.copyWith(brightness: Brightness.dark),
-      themeMode: (themeMode == null) ? ThemeMode.light : themeMode,
+      themeMode: (themeMode == null) ? ThemeMode.light : themeMode!,
       getPages: getPages,
       initialRoute: initialPage.routeName,
       initialBinding: initialBinding,
@@ -165,7 +161,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: appLanguage == null
           ? []
           : [
-              appLanguage.appLocalizationsX.delegate,
+              appLanguage!.appLocalizationsX.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
@@ -178,6 +174,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return additionalWidget == null
         ? materialApp()
-        : additionalWidget(materialApp());
+        : additionalWidget!(materialApp());
   }
 }

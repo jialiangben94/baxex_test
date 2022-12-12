@@ -27,36 +27,14 @@ extension TextUtilsStringExtension on String {
       .map((str) => str.firstCap())
       .join(' ');
 
-  String get pr => AppLocalizationsX.of(Get.context)?.translate(this);
+  String? get pr {
+    if (Get.context == null) return null;
+    return AppLocalizationsX?.of(Get.context!)?.translate(this);
+  }
 
-  String get tr {
-    // if (Get.locale?.languageCode == null) return null;
-
-    // if (_fullLocaleAndKey) {
-    //   return Get.translations['${Get.locale.languageCode}_${Get.locale.countryCode}'][this];
-    // }
-    // if (Get.fallbackLocale != null) {
-    //   final fallback = Get.fallbackLocale;
-    //   final key = '${fallback.languageCode}_${fallback.countryCode}';
-
-    //   if (Get.translations.containsKey(key) && Get.translations[key].containsKey(this)) {
-    //     return Get.translations[key][this];
-    //   }
-    //   if (Get.translations.containsKey(fallback.languageCode) &&
-    //       Get.translations[fallback.languageCode].containsKey(this)) {
-    //     return Get.translations[fallback.languageCode][this];
-    //   }
-    //   return null;
-    // } else {
-    //   return null;
-    // }
-
-    //if any error then open back catch
-    // try {
-    return AppLocalizationsX.of(Get.context).translate(this);
-    // } catch (e) {
-    // return null;
-    // }
+  String get lr {
+    if (Get.context == null) return this;
+    return AppLocalizationsX?.of(Get.context!)?.translate(this) ?? this;
   }
 }
 
@@ -135,7 +113,7 @@ extension GeneralUtilsObjectExtension on Object {
 }
 
 extension Unique<E, Id> on List<E> {
-  List<E> unique([Id Function(E element) id, bool inplace = true]) {
+  List<E> unique([Id Function(E element)? id, bool inplace = true]) {
     final ids = <dynamic>{};
     var list = inplace ? this : List<E>.from(this);
     list.retainWhere((x) => ids.add(id != null ? id(x) : x as Id));

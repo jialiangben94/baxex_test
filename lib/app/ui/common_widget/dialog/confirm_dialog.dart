@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ConfirmDialog extends StatelessWidget with CustomTextStyle {
-  final String title;
-  final String desc;
-  final String confirmText;
+  final String? title;
+  final String? desc;
+  final String? confirmText;
   const ConfirmDialog(this.title, this.desc, {this.confirmText = "Confirm"});
 
   @override
@@ -26,14 +26,14 @@ class ConfirmDialog extends StatelessWidget with CustomTextStyle {
                 children: [
                   if ((title ?? "").isNotEmpty)
                     Text(
-                      title,
+                      title ?? "",
                       style: regularSemi(20, colorBlack),
                       textAlign: TextAlign.center,
                     ),
                   if ((title ?? "").isNotEmpty) SizedBox(height: 20),
                   if ((desc ?? "").isNotEmpty)
                     Text(
-                      desc,
+                      desc ?? "",
                       style: regular(16, colorBlack),
                       textAlign: TextAlign.center,
                     ),

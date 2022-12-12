@@ -8,7 +8,7 @@ class AppLocalizationsX<T> {
 
   // Helper method to keep the code in the widgets concise
   // Localizations are accessed using an InheritedWidget "of" syntax
-  static AppLocalizationsX of(BuildContext context) {
+  static AppLocalizationsX? of(BuildContext context) {
     return Localizations.of<AppLocalizationsX>(context, AppLocalizationsX);
   }
 
@@ -21,14 +21,14 @@ class AppLocalizationsX<T> {
   Future<bool> load() async {
     print('load');
     // Load the language from file
-    _labels = await labelUtil.getLabels();
+    _labels = await labelUtil.getLabels() as List<T>;
 
     return true;
   }
 
   // This method will be called from every widget which needs a localized text
-  String translate(String key) {
-    return appTranslationX.translate(
+  String? translate(String key) {
+    return appTranslationX?.translate(
         key, baseConstant.languageCode.value, _labels);
   }
 }

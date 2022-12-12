@@ -11,6 +11,13 @@ class BaseXConfig extends BaseX {
       ));
 
   @override
-  Future<void> defaulOnFailedDialog(String message) =>
-      showConfirmationDialog(Get.context, "Error", message);
+  Future<void> defaulOnFailedDialog(String message) async {
+    if (Get.context == null) return;
+    await showConfirmationDialog(Get.context!, "Error", message);
+    return;
+  }
+
+  @override
+  // TODO: implement statusBarTextWhiteColor
+  bool get statusBarTextWhiteColor => true;
 }

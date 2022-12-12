@@ -4,8 +4,6 @@ import 'package:baseX/translation/translation.dart';
 import 'package:path_provider/path_provider.dart';
 
 class LabelUtilX<T> {
-  List<T> _labels = [];
-
   // write the label into file
   Future<File> writeLabel(String data) async {
     final file = await _labelFile;
@@ -43,7 +41,7 @@ class LabelUtilX<T> {
       final parsedLabel = parsed;
 
       return parsedLabel
-          .map<T>((json) => appTranslationX.fromJson(json))
+          .map<T>((json) => appTranslationX?.fromJson(json))
           .toList();
     } catch (e) {
       print(e);

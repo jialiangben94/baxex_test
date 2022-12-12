@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 class Label {
-  final String key;
-  final String enValue;
-  final String bmValue;
-  final String cnValue;
+  final String? key;
+  final String? enValue;
+  final String? bmValue;
+  final String? cnValue;
 
   Label({this.key, this.enValue, this.bmValue, this.cnValue});
 
-  factory Label.fromMap(Map<String, dynamic> json) {
+  static Label? fromMap(Map<String, dynamic>? json) {
     if (json == null) {
       return null;
     }
@@ -20,11 +20,13 @@ class Label {
     );
   }
 
-  static List<Label> listFromJson(List json) {
+  static List<Label>? listFromJson(List? json) {
     if (json == null) return null;
     List<Label> list = [];
     for (var item in json) {
-      list.add(Label.fromMap(item));
+      var map = Label.fromMap(item);
+      if (map == null) continue;
+      list.add(map);
     }
     return list;
   }
@@ -47,5 +49,5 @@ class Label {
 
   String toJson() => json.encode(toMap());
 
-  factory Label.fromJson(String source) => Label.fromMap(json.decode(source));
+  static Label? fromJson(String source) => Label.fromMap(json.decode(source));
 }

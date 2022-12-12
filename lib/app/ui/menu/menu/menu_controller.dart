@@ -22,11 +22,12 @@ class MenuController extends BaseXController {
   void onFailedDialog(int code, String msg, data) {
     // TODO: implement dialogFailed
     super.onFailedDialog(code, msg, data);
+    // var isErorr =false;
   }
 
   @override
-  bool onFailed(int code, String msg, data, {Function() tryAgain}) {
-    return super.onFailed(code, msg, data);
+  bool onFailed(int code, String msg, data, {Function? tryAgain}) {
+    return super.onFailed(code, msg, data, tryAgain: tryAgain);
   }
 
   fetchData() async {

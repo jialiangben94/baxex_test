@@ -2,7 +2,7 @@ import 'package:baseX/baseX.dart';
 import 'package:flutter/material.dart';
 
 class MainController extends BaseXController {
-//variable
+  //variable
 
   @override
   void onInit() {
@@ -21,10 +21,4 @@ class MainController extends BaseXController {
   //function
 
   //onTap
-
-  @override
-  Future<bool> onBack() async {
-    // TODO: implement onBack
-    return true;
-  }
 }

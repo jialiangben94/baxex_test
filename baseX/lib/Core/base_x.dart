@@ -19,28 +19,11 @@ abstract class BaseX {
   /// Set a default background color if needed, default value is `Colors.white`.
   Color get defaultBackgroundColor => Colors.white;
 
-  /// Set a background image if needed, default value is null.
-  ///
-  /// BackgroundImage will be prior to use instead of background color, the checking will be ignore when the value is null.
-  String get defaultBackgroundImageAssetsPath => null;
-
   // Set a default loading widget if needed.
   Widget get defaultLoadingWidget => SizedBox.shrink();
 
   //set the statusBarText into white, default false(black).
   bool get statusBarTextWhiteColor => false;
-
-  Future<void> setStatusBarTextColor({bool isWhite = true}) async {
-    await FlutterStatusbarcolor.setStatusBarWhiteForeground(isWhite);
-  }
-
-  Future<void> setStatusBarBackground(Color color) async {
-    await FlutterStatusbarcolor.setStatusBarColor(color);
-  }
-
-  void setAllowedOrientation(List<DeviceOrientation> orientationList) {
-    SystemChrome.setPreferredOrientations(orientationList);
-  }
 
   Widget customErrorWidget(FlutterErrorDetails error) {
     return SafeArea(
@@ -118,33 +101,6 @@ abstract class BaseX {
         content: Text(message),
       ));
 
-  /// 0: HMS Core (APK) is available.
-  ///
-  /// 1: No HMS Core (APK) is found on device.
-  ///
-  /// 2: HMS Core (APK) installed is out of date.
-  ///
-  /// 3: HMS Core (APK) installed on the device is unavailable.
-  ///
-  /// 9: HMS Core (APK) installed on the device is not the official version.
-  ///
-  /// 21: The device is too old to support HMS Core (APK)
-  ///
-  Future<bool> isHMS() async {
-    if (GetPlatform.isIOS) return false;
-    HmsApiAvailability client = HmsApiAvailability();
-    int status = await client.isHMSAvailable();
-    bool _isGMS = await isGMS();
-    return status == 0 && !_isGMS;
-    // -- Added !_isGMS to ensure the device have actually no GMS, else still can proceed GMS services.
-  }
-
-  Future<bool> isGMS() async {
-    if (GetPlatform.isIOS) return false;
-    bool result = await FlutterHmsGmsChecker.isGmsAvailable;
-    return result;
-  }
-
   Future<double> getSystemBottomSafeAreaHeight(
       {bool forceAndroidZero = true}) async {
     return (Get.mediaQuery.viewPadding.bottom > 15.0
@@ -152,12 +108,12 @@ abstract class BaseX {
         : Get.mediaQuery.viewPadding.bottom);
   }
 
-  GeneralErrorHandle onFailed =
-      ((BuildContext context, code, msg, {tryAgain}) => null);
+  // GeneralErrorHandle onFailed =
+  //     ((BuildContext context, code, msg, {tryAgain}) => null);
 }
 
 typedef GeneralErrorHandle = bool
-    Function(BuildContext context, int code, String msg, {Function() tryAgain});
+    Function(BuildContext context, int code, String msg, {Function? tryAgain});
 
 typedef GeneralErrorHandleConfig = bool Function(
     BuildContext context, int code, String msg);
@@ -176,14 +132,13 @@ abstract class BaseXWidget<T extends BaseXController> extends GetWidget<T> {
 
   Color get backgroundColor => baseXWidgetConfig.defaultBackgroundColor;
 
-  Widget loader() =>
-      baseXWidgetConfig.defaultLoadingWidget ?? SizedBox.shrink();
+  Widget? loader() => baseXWidgetConfig.defaultLoadingWidget;
 
-  Widget appBar(BuildContext context);
+  Widget? appBar(BuildContext context);
 
-  Widget body(BuildContext context);
+  Widget? body(BuildContext context);
 
-  Widget overlayChild() => null;
+  Widget? overlayChild() => null;
 
   Widget _contentBody(BuildContext context) {
     return Stack(
@@ -191,18 +146,18 @@ abstract class BaseXWidget<T extends BaseXController> extends GetWidget<T> {
         Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            if (appBar(context) != null) appBar(context),
+            if (appBar(context) != null) appBar(context)!,
             if (body(context) != null)
               Expanded(
-                child: hideScrollShadow(body(context)),
+                child: hideScrollShadow(body(context)!),
               ),
           ],
         ),
-        if (overlayChild() != null) Positioned.fill(child: overlayChild()),
+        if (overlayChild() != null) Positioned.fill(child: overlayChild()!),
         Obx(() => controller.isLoading.value
             ? (loader() ?? SizedBox.shrink())
             : SizedBox.shrink()),
-        if (kDebugMode && routeName != null) _topTag()
+        if (kDebugMode && routeName.isNotEmpty) _topTag()
       ],
     );
   }
@@ -254,27 +209,4 @@ abstract class BaseXWidget<T extends BaseXController> extends GetWidget<T> {
         : WillPopScope(
             onWillPop: controller.onBack, child: _scaffoldChild(context));
   }
-}
-
-class BaseXWorkInProgressWidget extends StatelessWidget {
-  final String text;
-  BaseXWorkInProgressWidget({this.text = 'Work In Progress...'});
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset('assets/in_progress.png', fit: BoxFit.cover),
-        SizedBox(height: 20),
-        Text(text),
-      ],
-    ));
-  }
-}
-
-void printSuperLongText(String text) {
-  final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
-  pattern.allMatches(text).forEach((match) => print(match.group(0)));
 }

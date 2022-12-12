@@ -6,12 +6,12 @@ class CustomColorButton extends StatelessWidget with CustomTextStyle {
   final Color titleColor;
   final Color color;
   final double height;
-  final Function onTap;
+  final Function()? onTap;
   const CustomColorButton(this.title, this.onTap,
       {this.height = 40,
       this.titleColor = colorWhite,
       this.color = themeColor,
-      Key key})
+      Key? key})
       : super(key: key);
 
   @override

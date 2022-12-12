@@ -8,15 +8,15 @@ import 'base_x.dart';
 
 // class GlobalMiddleware extends GetMiddleware {}
 
-GetPage cGetPageInitial<T extends BaseXWidget>(T page, {Bindings binding}) {
+GetPage cGetPageInitial<T extends BaseXWidget>(T page, {Bindings? binding}) {
   return GetPage(name: page.routeName, page: () => page, binding: binding);
 }
 
 //[GlobalMiddleware()]
 GetPage cGetPage<T extends BaseXWidget>(
   T page, {
-  Bindings binding,
-  List<GetMiddleware> middlewares,
+  Bindings? binding,
+  List<GetMiddleware>? middlewares,
 }) {
   return GetPage(
     name: page.routeName,
@@ -29,9 +29,10 @@ GetPage cGetPage<T extends BaseXWidget>(
   );
 }
 
-Future<dynamic> loadPage(BaseXWidget page, {bool preventDuplicates = true}) async {
-  var result =
-      await Get.toNamed(page.routeName, arguments: page, preventDuplicates: preventDuplicates);
+Future<dynamic> loadPage(BaseXWidget page,
+    {bool preventDuplicates = true}) async {
+  var result = await Get.toNamed(page.routeName,
+      arguments: page, preventDuplicates: preventDuplicates);
   return result;
 }
 
@@ -50,7 +51,7 @@ backTo(BaseXWidget page) {
   Get.until((route) => Get.currentRoute == page.routeName);
 }
 
-T getController<T extends GetxController>(T controller) {
+T? getController<T extends GetxController>(T controller) {
   if (Get.isRegistered<T>()) {
     return Get.find<T>();
   } else {

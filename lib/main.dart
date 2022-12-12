@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 
 void main() {
   runEtcApp(
-    currentEnv: Environment.Staging,
+    currentEnv: Environment.Live,
     staginBaseUrl: "test",
     liveBaseUrl: "test",
     requireSharePref: true,

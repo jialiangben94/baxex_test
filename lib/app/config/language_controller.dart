@@ -12,16 +12,16 @@ class LanguageController extends AppTranslationX<Label> {
       ];
 
   @override
-  Label fromJson(source) {
+  Label? fromJson(source) {
     // TODO: implement fromJson
     return Label.fromJson(source);
   }
 
   @override
-  String translate(String key, String languageCode, List<Label> list) {
+  String? translate(String key, String languageCode, List<Label> list) {
     // TODO: implement translate
     try {
-      String value;
+      String? value;
       if (AppConstant().languageCode.value == 'en') {
         value = list.firstWhere((item) => item.key == key).enValue;
       } else if (AppConstant().languageCode.value == 'bm') {
@@ -29,10 +29,10 @@ class LanguageController extends AppTranslationX<Label> {
       } else {
         value = list.firstWhere((item) => item.key == key).cnValue;
       }
-      if (value.isEmpty) {
+      if ((value ?? "").isEmpty) {
         return null;
       }
-      return value.replaceAll('\\n', '\n');
+      return value!.replaceAll('\\n', '\n');
     } catch (e) {
       return null;
     }
